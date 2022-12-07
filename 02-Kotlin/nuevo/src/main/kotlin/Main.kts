@@ -55,6 +55,22 @@ fun main() {
 
     }
     val coqueteo = if (estadoCivilWhen == "S") "Si" else "No"
+
+
+    // Declaración de las isntancias de la clase
+    val sumaUno = Suma(1, 1);
+    val sumaDos = Suma(null, 1);
+    val sumaTres = Suma(1, null);
+    val sumaCuatro = Suma(null, null);
+    sumaUno.sumar()
+    sumaDos.sumar()
+    sumaTres.sumar()
+    sumaCuatro.sumar()
+
+    Suma.pi
+    Suma.elevarAlCuadrado(2)
+    Suma.historialSumas
+
 }
 
 
@@ -74,5 +90,98 @@ fun calcularSueldo(
         return sueldo * (100 / tasa)
     } else {
         return sueldo * (100 / tasa) * bonoEspecial
+    }
+}
+
+
+//Clases dentro de Kotlin
+abstract class NumerosJava {
+    protected val numeroUno: Int
+    private val numeroDos: Int
+
+    constructor(
+        uno: Int,
+        dos: Int
+    ) { //Bloque código constructor
+        this.numeroUno = uno;
+        this.numeroDos = dos;
+        println("Inicializado")
+    }
+}
+
+abstract class Numero( //Constructor primario
+    // uno: Int, //Parametro
+    //public var uno: Int, // Semejante a utilizar var uno: Int
+    protected val numeroUno: Int,
+    protected val numeroDos: Int
+) {
+
+    init {//Constructor primario
+        // this.uno
+        this.numeroUno
+        numeroUno
+        this.numeroDos
+        numeroDos
+        println("Inicializado")
+
+    }
+
+}
+
+abstract class NumeroEjm( //Constructor primario
+    protected val numeroUno: Int,
+    private val numeroDos: Int
+) {
+    init {//Constructor primario
+        numeroUno
+        numeroDos
+        println("Inicializado")
+    }
+
+}
+
+class Suma(//Constructor Primario Suma
+    uno: Int,
+    dos: Int
+) : Numero(uno, dos) {
+    init { // Bloque contructor primario
+        this.numeroUno
+        this.numeroDos
+        //uno
+        //dos
+    }
+    constructor( //Segundo contructor
+        uno: Int?, //Parametros
+        dos: Int    //Parametros
+    ) : this( // Llamada constructor primario
+        if (uno == null) 0 else uno,
+        dos
+    )
+    constructor( //Segundo contructor
+        uno: Int, //Parametros
+        dos: Int?    //Parametros
+    ) : this( // Llamada constructor primario
+        if (dos == null) 0 else dos,
+        uno
+    )
+    constructor( //Segundo contructor
+        uno: Int?, //Parametros
+        dos: Int?    //Parametros
+    ) : this( // Llamada constructor primario
+        if (uno == null) 0 else uno,
+        if (dos == null) 0 else dos
+    )
+    public fun sumar(): Int{
+        return numeroUno + numeroDos
+    }
+    companion object { //Atributos o metodos compartidos dentre las instancias
+        val pi = 3.14
+        fun elevarAlCuadrado (num: Int): Int{
+            return num * num
+        }
+        val historialSumas = arrayListOf<Int>()
+        fun agregarHistorial(valorNumeroSuma: Int){
+            historialSumas.add(valorNumeroSuma)
+        }
     }
 }
