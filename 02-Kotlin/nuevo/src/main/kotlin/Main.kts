@@ -4,57 +4,57 @@ import java.util.*
 fun main() {
     println("hola mundo")
     //Tipos de variables
-
-    // Inmutable (No se puede reasignar)
-    val inmutable: String = "Kelvin";
-    //inmutable = "Jose" // no se puede reasignar
-
-    // mutables (Se puede reasignar los valores)
-    var mutable: String = "Kelvin";
-    mutable = "Jose";
-
-    //Se prefiere var respecto de val, es decir, var > val
-    // No es necesario el ;
-
-
-    // Duck typing
-
-    val ejemploVariable = "Ejemplo"
-    val edadEjemplo = 12
-    ejemploVariable.trim()
-
-    // variables prmitivas
-    val sueldo: Double = 1.2
-    val estadoCivil: Char = 'S'
-    val mayorEdad: Boolean = true
-
-    //Clase de Java
-    val fechaNacimiento: Date = Date()
-
-
-    //if else
-    if (true) {
-
-    } else {
-
-    }
-
-    // Switch no existe
-    val estadoCivilWhen = "S"
-    when (estadoCivilWhen) {
-        ("S") -> {
-            println("acercarse")
-        }
-
-        ("C") -> {
-            println("Alejarse")
-        }
-
-        "UN" -> println("hablar")
-        else -> print("No reconocido")
-
-    }
-    val coqueteo = if (estadoCivilWhen == "S") "Si" else "No"
+//
+//    // Inmutable (No se puede reasignar)
+//    val inmutable: String = "Kelvin";
+//    //inmutable = "Jose" // no se puede reasignar
+//
+//    // mutables (Se puede reasignar los valores)
+//    var mutable: String = "Kelvin";
+//    mutable = "Jose";
+//
+//    //Se prefiere var respecto de val, es decir, var > val
+//    // No es necesario el ;
+//
+//
+//    // Duck typing
+//
+//    val ejemploVariable = "Ejemplo"
+//    val edadEjemplo = 12
+//    ejemploVariable.trim()
+//
+//    // variables prmitivas
+//    val sueldo: Double = 1.2
+//    val estadoCivil: Char = 'S'
+//    val mayorEdad: Boolean = true
+//
+//    //Clase de Java
+//    val fechaNacimiento: Date = Date()
+//
+//
+//    //if else
+//    if (true) {
+//
+//    } else {
+//
+//    }
+//
+//    // Switch no existe
+//    val estadoCivilWhen = "S"
+//    when (estadoCivilWhen) {
+//        ("S") -> {
+//            println("acercarse")
+//        }
+//
+//        ("C") -> {
+//            println("Alejarse")
+//        }
+//
+//        "UN" -> println("hablar")
+//        else -> print("No reconocido")
+//
+//    }
+//    val coqueteo = if (estadoCivilWhen == "S") "Si" else "No"
 
 
     // Declaración de las isntancias de la clase
@@ -70,6 +70,18 @@ fun main() {
     Suma.pi
     Suma.elevarAlCuadrado(2)
     Suma.historialSumas
+
+
+    // Tipos de arreglos
+    val arregloEstatico: Array<Int> = arrayOf<Int>(1,2,3)
+    println(arregloEstatico)
+
+    // Arreglos dinámicos
+    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1,2,3,4,5,6,7,9,10)
+    println(arregloDinamico)
+    arregloDinamico.add(11)
+    arregloDinamico.add(12)
+    print(arregloDinamico)
 
 }
 
@@ -141,8 +153,8 @@ abstract class NumeroEjm( //Constructor primario
 }
 
 class Suma(//Constructor Primario Suma
-    uno: Int,
-    dos: Int
+    uno: Int, //Parametro
+    dos: Int  //Parametro
 ) : Numero(uno, dos) {
     init { // Bloque contructor primario
         this.numeroUno
@@ -150,6 +162,7 @@ class Suma(//Constructor Primario Suma
         //uno
         //dos
     }
+
     constructor( //Segundo contructor
         uno: Int?, //Parametros
         dos: Int    //Parametros
@@ -157,6 +170,7 @@ class Suma(//Constructor Primario Suma
         if (uno == null) 0 else uno,
         dos
     )
+
     constructor( //Segundo contructor
         uno: Int, //Parametros
         dos: Int?    //Parametros
@@ -164,6 +178,7 @@ class Suma(//Constructor Primario Suma
         if (dos == null) 0 else dos,
         uno
     )
+
     constructor( //Segundo contructor
         uno: Int?, //Parametros
         dos: Int?    //Parametros
@@ -171,17 +186,24 @@ class Suma(//Constructor Primario Suma
         if (uno == null) 0 else uno,
         if (dos == null) 0 else dos
     )
-    public fun sumar(): Int{
-        return numeroUno + numeroDos
+
+    public fun sumar(): Int {
+        //return numeroUno + numeroDos
+        val total = numeroUno+numeroDos
+        agregarHistorial(total)
+        return total
     }
+
     companion object { //Atributos o metodos compartidos dentre las instancias
         val pi = 3.14
-        fun elevarAlCuadrado (num: Int): Int{
+        fun elevarAlCuadrado(num: Int): Int {
             return num * num
         }
+
         val historialSumas = arrayListOf<Int>()
-        fun agregarHistorial(valorNumeroSuma: Int){
+        fun agregarHistorial(valorNumeroSuma: Int) {
             historialSumas.add(valorNumeroSuma)
+            print(historialSumas)
         }
     }
 }
