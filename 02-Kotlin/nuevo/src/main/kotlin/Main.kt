@@ -78,7 +78,7 @@ fun main() {
     println(arregloEstatico)
 
     // Arreglos dinámicos
-    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1, 2, 3, 4, 5, 6, 7, 9, 10)
+    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     println(arregloDinamico)
     arregloDinamico.add(11)
     arregloDinamico.add(12)
@@ -106,6 +106,51 @@ fun main() {
     println(respuestaMap)
     println()
     println(respuestaMapDos)
+
+
+    // FILTER -> Filtra el arreglo
+    // 1) Devolver una expresión true or false
+    // 2) Nuevo arreglo filtrado
+    val respuestaFilter: List<Int> = arregloDinamico.filter { valorActual: Int ->
+        val mayoresACinco: Boolean = valorActual > 5 // Expresión condición
+        return@filter mayoresACinco
+    }
+
+    val respuestaFilterDos = arregloDinamico.filter { it <= 5 }
+    println()
+    println("FILTER")
+    println(respuestaFilter)
+    println(respuestaFilterDos)
+
+    // OR AND
+    // OR -> Any (algunas cumple?)
+    // AND -> All (Todos cumplen?)
+    println()
+    println("AND OR")
+    println("El arreglo dinámico es: ${arregloDinamico}")
+    val respuestaAny: Boolean = arregloDinamico.any { valorActual: Int -> return@any (valorActual > 5) }
+    println("La respuesta any es: ${respuestaAny}")
+
+    val respuestaAll: Boolean = arregloDinamico.all { valorActual: Int -> return@all valorActual > 5 }
+    println("La respuesta all es: ${respuestaAll}")
+
+    // REDUCE
+    // Reduce -> valor acumualdo
+    // Valor acumulado = 0 (Siempre 0 en lenguaje Kotlin)
+    // [1,2,3,4] -> Sumeme todos los valores del arreglo
+    // valorIteracion 1 = valorEmpezo 0 + 1 elemento del arreglo = 1
+    // valorIteracion 2 = 1 + 2 (2do elemento del arreglo) = 3
+
+    val respuestaReduce: Int =
+        arregloDinamico.reduce { acumulado: Int, valorActual: Int -> return@reduce (acumulado + valorActual) }
+    // println("Respuesta reduce: ${respuestaReduce}") //78
+    imprimirValor("Respuesta reduce", respuestaReduce.toString()) //78
+
+}
+
+fun imprimirValor(message: String, valor: String): Unit {
+    println()
+    println("${message} ${valor}")
 }
 
 
@@ -135,8 +180,7 @@ abstract class NumerosJava {
     private val numeroDos: Int
 
     constructor(
-        uno: Int,
-        dos: Int
+        uno: Int, dos: Int
     ) { //Bloque código constructor
         this.numeroUno = uno;
         this.numeroDos = dos;
@@ -147,8 +191,7 @@ abstract class NumerosJava {
 abstract class Numero( //Constructor primario
     // uno: Int, //Parametro
     //public var uno: Int, // Semejante a utilizar var uno: Int
-    protected val numeroUno: Int,
-    protected val numeroDos: Int
+    protected val numeroUno: Int, protected val numeroDos: Int
 ) {
 
     init {//Constructor primario
@@ -164,8 +207,7 @@ abstract class Numero( //Constructor primario
 }
 
 abstract class NumeroEjm( //Constructor primario
-    protected val numeroUno: Int,
-    private val numeroDos: Int
+    protected val numeroUno: Int, private val numeroDos: Int
 ) {
     init {//Constructor primario
         numeroUno
@@ -190,24 +232,21 @@ class Suma(//Constructor Primario Suma
         uno: Int?, //Parametros
         dos: Int    //Parametros
     ) : this( // Llamada constructor primario
-        if (uno == null) 0 else uno,
-        dos
+        if (uno == null) 0 else uno, dos
     )
 
     constructor( //Segundo contructor
         uno: Int, //Parametros
         dos: Int?    //Parametros
     ) : this( // Llamada constructor primario
-        if (dos == null) 0 else dos,
-        uno
+        if (dos == null) 0 else dos, uno
     )
 
     constructor( //Segundo contructor
         uno: Int?, //Parametros
         dos: Int?    //Parametros
     ) : this( // Llamada constructor primario
-        if (uno == null) 0 else uno,
-        if (dos == null) 0 else dos
+        if (uno == null) 0 else uno, if (dos == null) 0 else dos
     )
 
     public fun sumar(): Int {
