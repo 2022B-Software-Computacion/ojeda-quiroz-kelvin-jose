@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hola_mundo">hola mundo port traduccion</string>
+    <color name="font">#FF3700B3</color>
+    <color name="bc">#FF000000</color>
+</resources>

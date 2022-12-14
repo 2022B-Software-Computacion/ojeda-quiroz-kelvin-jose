@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">koapplication</string>
+    <string name="hola_mundo">Hola mundo v1</string>
 </resources>
