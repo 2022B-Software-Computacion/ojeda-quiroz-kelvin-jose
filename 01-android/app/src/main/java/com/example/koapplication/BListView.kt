@@ -48,11 +48,11 @@ class BListView : AppCompatActivity() {
 
     }
 
-    fun abrirDialogo(){
+    fun abrirDialogo() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar?")
         builder.setPositiveButton(
-            "Aceptar", DialogInterface.OnClickListener{dialog, which ->
+            "Aceptar", DialogInterface.OnClickListener { dialog, which ->
                 // Al aceptar eliminar el registro
             }
         )
@@ -69,7 +69,7 @@ class BListView : AppCompatActivity() {
         builder.setMultiChoiceItems(
             opciones,
             seleccionPrevia,
-            {dialog, which, isChecked -> "Dio click en el item $which"}
+            { dialog, which, isChecked -> "Dio click en el item $which" }
         )
         val dialogo = builder.create()
         dialogo.show()
@@ -78,8 +78,8 @@ class BListView : AppCompatActivity() {
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         // abrir el diagolo
-        return when (item.itemId){
-            R.id.mi_editar->{
+        return when (item.itemId) {
+            R.id.mi_editar -> {
                 "${idItemSeleccionado}"
                 return true
             }
@@ -97,10 +97,7 @@ class BListView : AppCompatActivity() {
         adaptador: ArrayAdapter<BEntrenador>
     ) {
         arreglo.add(
-            BEntrenador(
-                "Adrian",
-                "Descripcion"
-            )
+            BEntrenador(1, "Adrian", "Descripcion")
         )
         adaptador.notifyDataSetChanged()
     }

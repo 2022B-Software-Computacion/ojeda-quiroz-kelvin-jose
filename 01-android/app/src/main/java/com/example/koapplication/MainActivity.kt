@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         intentExplicito.putExtra("Nombre", "Kelvin")
         intentExplicito.putExtra("Apellido", "Ojeda")
         intentExplicito.putExtra("Edad", 19)
+        intentExplicito.putExtra("entrenadorPrincipal", BEntrenador(1,"KELVIN", "PARCELABLE"))
         contenidoIntentExplicito.launch(intentExplicito)
     }
 }
