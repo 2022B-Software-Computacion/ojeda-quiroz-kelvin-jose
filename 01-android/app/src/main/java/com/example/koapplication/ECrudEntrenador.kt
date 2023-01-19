@@ -25,7 +25,7 @@ class ECrudEntrenador : AppCompatActivity() {
 
         val botonCrearBDD = findViewById<Button>(R.id.btn_crear_bdd)
         botonCrearBDD.setOnClickListener {
-            val nombre = findViewById<EditText>(R.id.input_id)
+            val nombre = findViewById<EditText>(R.id.input_nombre)
             val descripcion = findViewById<EditText>(R.id.input_descripcion)
             EBaseDatos.tablaEntrenador!!.crearEntrenador(
                 nombre.text.toString(), descripcion.text.toString()

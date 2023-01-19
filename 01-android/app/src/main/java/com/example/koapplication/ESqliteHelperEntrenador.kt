@@ -70,7 +70,7 @@ class ESqliteHelperEntrenador(contexto: Context?) : SQLiteOpenHelper(contexto, "
             do{
                 val id = resultadoConsultaLectura.getInt(0)//Columna ID
                 val nombre = resultadoConsultaLectura.getString(1)// Columna de nombre
-                val descripcion = resultadoConsultaLectura.getString(3) // Columna de descripción
+                val descripcion = resultadoConsultaLectura.getString(2) // Columna de descripción
                 if(id!= null){
                     usuarioEncontrado = BEntrenador(0, "", "")
                     usuarioEncontrado.id = id
