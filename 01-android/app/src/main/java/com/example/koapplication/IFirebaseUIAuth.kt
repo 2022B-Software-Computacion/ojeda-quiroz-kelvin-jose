@@ -8,6 +8,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.IdpResponse
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
 
 class IFirebaseUIAuth : AppCompatActivity() {
     // Callback del intent Login
@@ -34,6 +35,15 @@ class IFirebaseUIAuth : AppCompatActivity() {
         //FIREBASE
     }
 
+    fun seDeslogeo(){
+        val btnLogin = findViewById<Button>(R.id.btn_login)
+        val btnLogOut = findViewById<Button>(R.id.btn_logout)
+        btnLogin.visibility = View.INVISIBLE
+        btnLogOut.visibility = View.VISIBLE
+        FirebaseAuth.getInstance().signOut()
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ifirebase_uiauth)
@@ -49,6 +59,9 @@ class IFirebaseUIAuth : AppCompatActivity() {
             // Respuestas del intent de login
             signInLauncher.launch(signInIntent)
         }
+
+        val btnLogOut = findViewById<Button>(R.id.btn_logout)
+        btnLogOut.setOnClickListener { seDeslogeo() }
 
     }
 }

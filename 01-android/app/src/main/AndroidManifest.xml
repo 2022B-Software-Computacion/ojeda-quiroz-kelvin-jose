@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Koapplication"
         tools:targetApi="31">
         <activity
+            android:name=".JFirebaseFirestone"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".IFirebaseUIAuth"
             android:exported="false">
             <meta-data
