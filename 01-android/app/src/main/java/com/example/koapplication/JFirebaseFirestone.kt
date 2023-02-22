@@ -1,6 +1,6 @@
 package com.example.koapplication
 
-import android.app.DownloadManager.Query
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -9,6 +9,7 @@ import android.widget.ListView
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.Query
 
 class JFirebaseFirestone : AppCompatActivity() {
     var query: Query? = null
@@ -29,6 +30,63 @@ class JFirebaseFirestone : AppCompatActivity() {
         botonDatosPrueba.setOnClickListener {
             crearDatosDePrueba()
         }
+
+        val botonOrderBy = findViewById<Button>(R.id.btn_fs_order_by)
+        botonOrderBy.setOnClickListener { consultarConOrderBy(adaptador) }
+
+        val botonObtenerDocumento = findViewById<Button>(R.id.btn_fs_odoc)
+        botonObtenerDocumento.setOnClickListener { consultarDocumento(adaptador) }
+        val botonFirebaseIndiceCompuesto = findViewById<Button>(R.id.btn_fs_ind_comp)
+        botonFirebaseIndiceCompuesto.setOnClickListener { consultarindiceCompuesto(adaptador) }
+    }
+
+    private fun consultarindiceCompuesto(adaptador: ArrayAdapter<JCitiesDto>) {
+        val db = Firebase.firestore
+        val citiesRefUnico = db.collection("cities")
+        citiesRefUnico.whereEqualTo("capital", false).whereLessThanOrEqualTo("population", 40000000)
+            .orderBy("population", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener {
+                for(ciudad in it){
+                    anadirAArregloCiudad(arreglo, ciudad, adaptador)
+                }
+            }
+
+    }
+
+    private fun consultarDocumento(adaptador: ArrayAdapter<JCitiesDto>) {
+        val db = Firebase.firestore
+        val citiesRefUnico = db.collection("cities")
+        citiesRefUnico.document("BJ")
+            .get()
+            .addOnSuccessListener {
+                limpiarArreglo()
+                arreglo.add(
+                    JCitiesDto(
+                        it.data?.get("name") as String?,
+                        it.data?.get("state") as String?,
+                        it.data?.get("name") as String?,
+                        it.data?.get("country") as Boolean?,
+                        it.data?.get("population") as Long?,
+                        it.data?.get("regions") as ArrayList<String>
+                    )
+                )
+            }
+        adaptador.notifyDataSetChanged()
+
+    }
+
+    fun consultarConOrderBy(adaptador: ArrayAdapter<JCitiesDto>){
+        val db = Firebase.firestore
+        val citiesRefUnico = db.collection("cities")
+        limpiarArreglo()
+        adaptador.notifyDataSetChanged()
+        citiesRefUnico.orderBy("population", Query.Direction.ASCENDING)
+            .get().addOnSuccessListener {
+                for (ciudad in it){
+                    anadirAArregloCiudad(arreglo, ciudad, adaptador)
+                }
+            }
     }
 
     private fun crearDatosDePrueba() {
@@ -103,8 +161,8 @@ class JFirebaseFirestone : AppCompatActivity() {
             ciudad.data.get("name") as String?,
             ciudad.data.get("state") as String?,
             ciudad.data.get("country") as String?,
-            ciudad.data.get("capital") as String?,
-            ciudad.data.get("population") as String?,
+            ciudad.data.get("capital") as Boolean?,
+            ciudad.data.get("population") as Long?,
             ciudad.data.get("regions") as ArrayList<String>
         )
 
