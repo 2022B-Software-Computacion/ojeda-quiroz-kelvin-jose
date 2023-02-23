@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import java.util.*
+import kotlin.collections.ArrayList
 
 class JFirebaseFirestone : AppCompatActivity() {
     var query: Query? = null
@@ -38,6 +42,106 @@ class JFirebaseFirestone : AppCompatActivity() {
         botonObtenerDocumento.setOnClickListener { consultarDocumento(adaptador) }
         val botonFirebaseIndiceCompuesto = findViewById<Button>(R.id.btn_fs_ind_comp)
         botonFirebaseIndiceCompuesto.setOnClickListener { consultarindiceCompuesto(adaptador) }
+
+        val botonFirebaseCrear = findViewById<Button>(R.id.btn_fs_crear)
+        botonFirebaseCrear.setOnClickListener { crearDatosEjemplo() }
+
+        val botonFirebaseEliminar = findViewById<Button>(R.id.btn_fs_eliminar)
+        botonFirebaseEliminar.setOnClickListener { eliminarRegistro() }
+
+        val botonFirebaseEmpiezaPaginar = findViewById<Button>(R.id.btn_fs_epaginar)
+        botonFirebaseEmpiezaPaginar.setOnClickListener {
+            query = null
+            consultarCiudad(adaptador)
+        }
+    }
+
+    //paginación
+    //[1,2,3,4,5,6,7,8]
+    // primero pido los 4 [1,2,3,4]
+    // siguientes 4 -> tengo que pasar el 4 = [5,6,7,8]
+    // siguientes 4 -> tengo que pasar el 8 = []
+
+    private fun consultarCiudad(adaptador: ArrayAdapter<JCitiesDto>) {
+        val db = Firebase.firestore
+        val citiesRef = db.collection("cities").orderBy("population").limit(1)
+        var tarea: Task<QuerySnapshot>? = null
+        if(query == null){
+            tarea = citiesRef.get()  //1era vez
+            adaptador.notifyDataSetChanged()
+        }else{
+            tarea = query!!.get() //Consultar la consulta anterior pero con más datos en el nuevo documento
+        }
+    }
+
+
+
+
+    private fun eliminarRegistro() {
+        val db = Firebase.firestore
+        val referenciaEjemploEstudiante = db
+            .collection("ejemplo")
+            .document("123456789")
+            .collection("estudiante")
+        referenciaEjemploEstudiante
+            .document("123456789")
+            .delete()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun crearDatosEjemplo() {
+        val db = Firebase.firestore
+        val referenciaEjemploEstudiante = db
+            .collection("ejemplo")
+            .document("123456789")
+            .collection("estudiante")
+        val identificador = Date().time
+        val datosEstudiante = hashMapOf(
+            "nombre" to "Adrian",
+            "graduado" to false,
+            "promedio" to 14.00,
+            "direccion" to hashMapOf(
+                "direccion" to "Mitad del mundo",
+                "numeroCalle" to 1234
+            ),
+            "materias" to listOf("web", "moviles")
+        )
+
+        // COn identificador quemado
+        referenciaEjemploEstudiante
+            .document("123456789")
+            .set(datosEstudiante)
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+        // Con identificador generado en Date.time
+        referenciaEjemploEstudiante
+            .document(identificador.toString())
+            .set(datosEstudiante)
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+
+        // Sin identificador generado por el firebase
+        referenciaEjemploEstudiante
+            .add(datosEstudiante)// Crear
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 
     private fun consultarindiceCompuesto(adaptador: ArrayAdapter<JCitiesDto>) {
@@ -47,7 +151,7 @@ class JFirebaseFirestone : AppCompatActivity() {
             .orderBy("population", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
-                for(ciudad in it){
+                for (ciudad in it) {
                     anadirAArregloCiudad(arreglo, ciudad, adaptador)
                 }
             }
@@ -76,14 +180,14 @@ class JFirebaseFirestone : AppCompatActivity() {
 
     }
 
-    fun consultarConOrderBy(adaptador: ArrayAdapter<JCitiesDto>){
+    fun consultarConOrderBy(adaptador: ArrayAdapter<JCitiesDto>) {
         val db = Firebase.firestore
         val citiesRefUnico = db.collection("cities")
         limpiarArreglo()
         adaptador.notifyDataSetChanged()
         citiesRefUnico.orderBy("population", Query.Direction.ASCENDING)
             .get().addOnSuccessListener {
-                for (ciudad in it){
+                for (ciudad in it) {
                     anadirAArregloCiudad(arreglo, ciudad, adaptador)
                 }
             }
@@ -93,7 +197,7 @@ class JFirebaseFirestone : AppCompatActivity() {
 
     }
 
-    fun crearDatosPrueba(){
+    fun crearDatosPrueba() {
         val db = Firebase.firestore // Objeto Firebase
         val cities = db.collection("cities") // nombre de la colección
 
@@ -156,7 +260,7 @@ class JFirebaseFirestone : AppCompatActivity() {
         arregloNuevo: ArrayList<JCitiesDto>,
         ciudad: QueryDocumentSnapshot,
         adaptador: ArrayAdapter<JCitiesDto>
-    ){
+    ) {
         val nuevaCiudad = JCitiesDto(
             ciudad.data.get("name") as String?,
             ciudad.data.get("state") as String?,
